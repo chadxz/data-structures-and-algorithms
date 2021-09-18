@@ -54,6 +54,28 @@ class LinkedList {
     }
 
     /**
+     * Complexity: O(1)
+     *
+     * @param value
+     * @returns {LinkedList}
+     */
+    prepend(value) {
+        const newNode = new LinkedListNode(value);
+
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = this.head;
+            this.length = 1;
+            return this;
+        }
+
+        newNode.next = this.head;
+        this.head = newNode;
+        this.length += 1;
+        return this;
+    }
+
+    /**
      * Complexity: O(n)
      *
      * @param value
@@ -293,5 +315,25 @@ if (require.main === module) {
         assert.strictEqual(list.toString(), '');
         assert.strictEqual(list.head, null);
         assert.strictEqual(list.tail, null);
+    })();
+
+    (function prependEmptyList() {
+        const list = new LinkedList();
+        list.prepend(1);
+
+        assert.strictEqual(list.length, 1);
+        assert.strictEqual(list.toString(), '1');
+        assert.strictEqual(list.head?.value, 1);
+        assert.strictEqual(list.tail?.value, 1);
+    })();
+
+    (function prependExistingList() {
+        const list = LinkedList.fromArray([1,2,3]);
+        list.prepend(4);
+
+        assert.strictEqual(list.length, 4);
+        assert.strictEqual(list.toString(), '4,1,2,3');
+        assert.strictEqual(list.head?.value, 4);
+        assert.strictEqual(list.tail?.value, 3);
     })();
 }
