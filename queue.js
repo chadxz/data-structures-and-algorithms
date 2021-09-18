@@ -51,6 +51,8 @@ class Queue {
     }
 }
 
+module.exports = Queue;
+
 if (require.main === module) {
     (function testQueue() {
         const queue = new Queue();

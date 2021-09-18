@@ -36,6 +36,8 @@ class Stack {
     }
 }
 
+module.exports = Stack;
+
 if (require.main === module) {
     (function testStack() {
         const stack = new Stack();
