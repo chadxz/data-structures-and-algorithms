@@ -70,6 +70,25 @@ class LinkedList {
     }
 
     /**
+     * @returns {LinkedListNode|null}
+     */
+    deleteHead() {
+        if (!this.head) {
+            return null;
+        }
+
+        const deleted = this.head;
+        this.head = this.head.next;
+
+        if (deleted === this.tail) {
+            this.tail = null;
+        }
+
+        this.length -= 1;
+        return deleted;
+    }
+
+    /**
      * Delete the first node found that contains the given value
      * Complexity: O(n)
      *
@@ -246,6 +265,28 @@ if (require.main === module) {
     (function deleteSingleNode() {
         const list = LinkedList.fromArray([1]);
         const result = list.delete(1);
+
+        assert.strictEqual(result.value, 1);
+        assert.strictEqual(list.length, 0);
+        assert.strictEqual(list.toString(), '');
+        assert.strictEqual(list.head, null);
+        assert.strictEqual(list.tail, null);
+    })();
+
+    (function deleteHead() {
+        const list = LinkedList.fromArray([1,2,3]);
+        const result = list.deleteHead();
+
+        assert.strictEqual(result.value, 1);
+        assert.strictEqual(list.length, 2);
+        assert.strictEqual(list.toString(), '2,3');
+        assert.strictEqual(list.head?.value, 2);
+        assert.strictEqual(list.tail?.value, 3);
+    })();
+
+    (function deleteHeadOnlyItem() {
+        const list = LinkedList.fromArray([1]);
+        const result = list.deleteHead();
 
         assert.strictEqual(result.value, 1);
         assert.strictEqual(list.length, 0);
