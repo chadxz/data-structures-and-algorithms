@@ -1,4 +1,5 @@
 "use strict";
+const assert = require('assert');
 const util = require('util');
 const Queue = require('./queue');
 
@@ -63,7 +64,7 @@ class BinarySearchTree {
     }
 
     /**
-     * Complexity: O(log(n))
+     * Complexity: O(log(n)) for perfectly balanced tree. O(n) worst-case unbalanced.
      *
      * @param value
      * @returns {BinarySearchTree}
@@ -77,6 +78,29 @@ class BinarySearchTree {
 
         this.root.insert(node);
         return this;
+    }
+
+    /**
+     * Check if the tree contains the given value using depth-first inOrder search,
+     * taking advantage of the binary search tree structure.
+     * Complexity: O(log(n)) for perfectly balanced tree. O(n) worst-case unbalanced.
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    contains(value) {
+        for (let nodeValue of this.inOrderTraversal()) {
+            if (nodeValue === value) {
+                return true;
+            }
+            if (nodeValue > value) {
+                // inOrder traversal implies we won't find it
+                // if we've exceeded the value, so we can short-circuit.
+                return false;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -171,5 +195,9 @@ if (require.main === module) {
     (function binaryBreadthFirstTraversal() {
         const bst = BinarySearchTree.fromArray([10,12,8,15,4,11]);
         console.log('breadthFirst', util.inspect([...bst.breadthFirstTraversal()], { depth: null }));
+    })();
+    (function binarySearch() {
+        const bst = BinarySearchTree.fromArray([10,12,8,15,4,11]);
+        assert.strictEqual(bst.contains(15), true);
     })();
 }
