@@ -81,26 +81,25 @@ class BinarySearchTree {
     }
 
     /**
-     * Check if the tree contains the given value using depth-first inOrder search,
-     * taking advantage of the binary search tree structure.
+     * Check if the tree contains the given value
      * Complexity: O(log(n)) for perfectly balanced tree. O(n) worst-case unbalanced.
      *
      * @param value
+     * @param {BinarySearchNode} [node=this.root]
      * @returns {boolean}
      */
-    contains(value) {
-        for (let nodeValue of this.inOrderTraversal()) {
-            if (nodeValue === value) {
-                return true;
-            }
-            if (nodeValue > value) {
-                // inOrder traversal implies we won't find it
-                // if we've exceeded the value, so we can short-circuit.
-                return false;
-            }
+    contains(value, node = this.root) {
+        if (!node) {
+            return false;
         }
 
-        return false;
+        if (node.value === value) {
+            return true;
+        }
+
+        return value <= node.value ?
+            this.contains(value, node.left) :
+            this.contains(value, node.right);
     }
 
     /**
@@ -199,5 +198,6 @@ if (require.main === module) {
     (function binarySearch() {
         const bst = BinarySearchTree.fromArray([10,12,8,15,4,11]);
         assert.strictEqual(bst.contains(15), true);
+        assert.strictEqual(bst.contains(30), false);
     })();
 }
