@@ -18,8 +18,8 @@ class BinarySearchNode {
      * @returns {BinarySearchNode} the parent the node was added to
      */
     insert(node) {
-        return node.value >= this.value ?
-            this.setRight(node) : this.setLeft(node);
+        return node.value <= this.value ?
+            this.setLeft(node) : this.setRight(node);
     }
 
     /**
@@ -113,9 +113,9 @@ class BinarySearchTree {
             return null;
         }
 
-        yield root.value;
         yield * this.postOrderTraversal(root.left);
         yield * this.postOrderTraversal(root.right);
+        yield root.value;
     }
 
     /**
